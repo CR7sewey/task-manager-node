@@ -28,6 +28,49 @@ const createTask = (req, res) => {
   }
 };
 
+const getTaskId = (req, res) => {
+  try {
+    const { id } = req.params;
+    const obj = dataI.find((values) => values._id === Number(id));
+    if (!obj) {
+      throw new Error(`The provided id=${id} doenst exist!`);
+    }
+    return res.json({ task: obj });
+  } catch (e) {
+    return res.status(404).json({
+      success: false,
+      msg: "Some error in the server. Please reload the page!",
+    });
+  }
+};
+
+const updateTask = (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, completed } = req.body;
+    const obj = dataI.find((values) => values._id === Number(id));
+    if (!obj) {
+      throw new Error(`The provided id=${id} doenst exist!`);
+    }
+
+    dataI = dataI.map((values) => {
+      if (values._id === Number(id)) {
+        values.name = name;
+        values.completed = completed;
+      }
+      return values;
+    });
+    const new_obj = { completed: completed, _id: Number(id), name: name };
+    return res.json({ task: new_obj });
+  } catch (e) {
+    console.log("aquiaaa");
+    return res.status(404).json({
+      success: false,
+      msg: "Some error in the server. Please reload the page!",
+    });
+  }
+};
+
 const deleteTask = (req, res) => {
   try {
     const { id } = req.params;
@@ -50,4 +93,4 @@ const deleteTask = (req, res) => {
   }
 };
 
-module.exports = { getTasks, createTask, deleteTask };
+module.exports = { getTasks, createTask, deleteTask, getTaskId, updateTask };
