@@ -28,4 +28,26 @@ const createTask = (req, res) => {
   }
 };
 
-module.exports = { getTasks, createTask };
+const deleteTask = (req, res) => {
+  try {
+    const { id } = req.params;
+    const obj = dataI.find((values) => values._id === Number(id));
+    if (!obj) {
+      throw new Error(`The provided id=${id} doenst exist!`);
+    }
+
+    dataI = dataI.filter((values) => {
+      if (values._id !== Number(id)) {
+        return values;
+      }
+    });
+    return res.json({ dataI });
+  } catch (e) {
+    return res.status(404).json({
+      success: false,
+      msg: "Some error in the server. Please reload the page!",
+    });
+  }
+};
+
+module.exports = { getTasks, createTask, deleteTask };
