@@ -1,4 +1,4 @@
-let dataI = [{ completed: false, _id: 1, name: "Mike" }];
+let dataI = [];
 
 const getTasks = (req, res) => {
   try {
