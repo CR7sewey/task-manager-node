@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const routes = require("./routes/tasksRoute");
 const connectDB = require("./db/db-connection");
+require("dotenv").config();
 
 // static assets
 app.use(express.static("./public"));
@@ -26,5 +27,4 @@ const start = async () => {
     console.log(error);
   }
 };
-
 start();
