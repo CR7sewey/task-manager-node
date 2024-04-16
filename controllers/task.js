@@ -17,20 +17,24 @@ const createTask = asyncFunctions(async (req, res, next) => {
   return res.status(201).json({ new_task });
 });
 
-const getTaskId = asyncFunctions(async (req, res) => {
+const getTaskId = asyncFunctions(async (req, res, next) => {
   const { id: taskID } = req.params;
   const task_by_id = await Task.findOne({ _id: taskID });
   //const obj = dataI.find((values) => values._id === Number(id));
+  console.log("asniuasudiia --------------");
   if (!task_by_id) {
+    console.log(
+      "------------------------------------------ asniuasudiia --------------"
+    );
+
     return next(
-      factoryMyError(`It doesnt exist any task with id=${taskID}`),
-      404
+      factoryMyError(`It doesnt exist any task with id=${taskID}`, 404)
     );
   }
   return res.status(200).json({ task: task_by_id });
 });
 
-const updateTask = asyncFunctions(async (req, res) => {
+const updateTask = asyncFunctions(async (req, res, next) => {
   const { id } = req.params;
   //const { name, completed } = req.body;
   const task_by_id = await Task.findOneAndUpdate({ _id: id }, req.body, {
@@ -39,17 +43,17 @@ const updateTask = asyncFunctions(async (req, res) => {
   });
   //const obj = dataI.find((values) => values._id === Number(id));
   if (!task_by_id) {
-    return next(factoryMyError(`It doesnt exist any task with id=${id}`), 404);
+    return next(factoryMyError(`It doesnt exist any task with id=${id}`, 404));
   }
   return res.json({ task: task_by_id });
 });
 
-const deleteTask = asyncFunctions(async (req, res) => {
+const deleteTask = asyncFunctions(async (req, res, next) => {
   const { id } = req.params;
   //const obj = dataI.find((values) => values._id === Number(id));
   const task = await Task.findOneAndDelete({ _id: id });
   if (!task) {
-    return next(factoryMyError(`It doesnt exist any task with id=${id}`), 404);
+    return next(factoryMyError(`It doesnt exist any task with id=${id}`, 404));
   }
   return res.status(200).json({ task, success: true });
 });

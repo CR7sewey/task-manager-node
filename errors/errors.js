@@ -1,13 +1,13 @@
 class MyError extends Error {
   // smelahte em java
-  constructor(error, state) {
-    super(error); // from error
+  constructor(message, state) {
+    super(message); // from error
     this.state = state;
   }
 }
 
-const factoryMyError = (error, state) => {
-  return new MyError(error, state);
+const factoryMyError = (message, state) => {
+  return new MyError(message, state);
 };
 
 module.exports = { factoryMyError, MyError };

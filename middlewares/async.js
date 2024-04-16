@@ -4,7 +4,7 @@ const asyncFunctions = (fn) => {
     try {
       await fn(req, res, next);
     } catch (e) {
-      next(e);
+      next(e); // to the middleware
     }
   };
 };
